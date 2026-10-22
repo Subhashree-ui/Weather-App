@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather app</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: rgb(163, 192, 211);
+        }
+        .box{
+            width: 300px;
+            background-color: aliceblue;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: rgba(54, 53, 53, 0.66);
+        }
+        #city{
+            font-size: 30px;
+            margin: 15px;
+        }
+        #temperature{
+            font-size: 40px;
+            font-weight: bold;
+            color: #df802d;
+            margin-bottom: 10px;
+        }
+        #wind{
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        #weatherBtn{
+            font-size: 15px;
+            padding: 12px 20px;
+            color: aliceblue;
+            background-color: #df802d;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 id="city">weather</h2>
+        <input type="text" id="cityInput" placeholder="Enter City Name">
+        <p id="temperature"></p>
+        <p id="wind"></p>
+        <button id="weatherBtn"> Get weather </button>
+    </div>
+    <script>
+        let cityInput = document.getElementById("cityInput");
+        let cityDisplay = document.getElementById("city");
+        let temperatureDiplay= document.getElementById("temperature");
+        let windDisplay = document.getElementById("wind");
+        let weatherBtn = document.getElementById("weatherBtn");
+        
+        let apiKey = "7e0cdc870a278b2103937894ad300be6";
+
+        weatherBtn.addEventListener("click" ,function(){
+            let city =cityInput.value;
+
+            if (city === ""){
+            alert("Please Enter a city Name");
+            return;
+        }
+
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        fetch (url)
+            .then (function(response){
+                return response.json();
+            })
+            .then (function(data){
+                if (data.main){
+                    cityDisplay.textContent= data.name;
+                    temperatureDiplay.textContent = data.main.temp + " C";
+                    windDisplay.textContent = "wind: " + data.wind.speed + " m/s";
+            }else{
+                cityDisplay.textContent = "Error";
+                temperatureDiplay.textContent ="";
+                windDisplay.textContent = data.message;
+            }
+
+        });
+    });
+    </script>
+</body>
+</html>
