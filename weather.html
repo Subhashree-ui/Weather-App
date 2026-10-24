@@ -76,9 +76,10 @@
 
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
         
-
+        try{
         let response = await fetch(url);
         let data = await response.json();
+
                 if (data.main){
                     cityDisplay.textContent= data.name;
                     temperatureDiplay.textContent = data.main.temp + " C";
@@ -88,6 +89,11 @@
                 temperatureDiplay.textContent ="";
                 windDisplay.textContent = data.message;
             }
+        }catch(error){
+            cityDisplay.textContent = "Error";
+            temperatureDiplay.textContent =  "";
+            windDisplay.textContent = "Network error . Check your internet connection"
+        }
 
         });
     
